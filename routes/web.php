@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Middleware\verifyAcces;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\CategorieController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,20 +28,27 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     /* CATEGORIES */
     Route::get('/categories',[CategorieController::class,'index'])->name('categories.index');
-    Route::get('/categories/create',[CategorieController::class,'create'])->name('categories.create');
-    Route::post('/categories/store',[CategorieController::class,'store'])->name('categories.store');
-    Route::get('/categories/{categorie}/edit',[CategorieController::class,'edit'])->name('categories.edit');
-    Route::post('/categories/{categorie}/update',[CategorieController::class,'update'])->name('categories.update');
-    Route::get('/categories/{categorie}/destroy',[CategorieController::class,'destroy'])->name('categories.destroy');
+    Route::get('/photos',[PhotoController::class,'index'])->name('photos.index');
+    Route::any('/photos/find',[PhotoController::class,'find'])->name('photos.find');
+    Route::middleware([verifyAcces::class])->group(function () {
+        
+        Route::get('/categories/create',[CategorieController::class,'create'])->name('categories.create');
+        Route::post('/categories/store',[CategorieController::class,'store'])->name('categories.store');
+        Route::get('/categories/{categorie}/edit',[CategorieController::class,'edit'])->name('categories.edit');
+        Route::post('/categories/{categorie}/update',[CategorieController::class,'update'])->name('categories.update');
+        Route::get('/categories/{categorie}/destroy',[CategorieController::class,'destroy'])->name('categories.destroy');
 
-     /* PHOTOS */
-     Route::get('/photos',[PhotoController::class,'index'])->name('photos.index');
-     Route::get('/photos/create',[PhotoController::class,'create'])->name('photos.create');
-     Route::post('/photos/store',[PhotoController::class,'store'])->name('photos.store');
-     Route::get('/photos/{photo}/edit',[PhotoController::class,'edit'])->name('photos.edit');
-     Route::post('/photos/{photo}/update',[PhotoController::class,'update'])->name('photos.update');
-     Route::get('/photos/{photo}/destroy',[PhotoController::class,'destroy'])->name('photos.destroy');
-     Route::any('/photos/find',[PhotoController::class,'find'])->name('photos.find');
+        /* PHOTOS */
+        
+        Route::get('/photos/create',[PhotoController::class,'create'])->name('photos.create');
+        Route::post('/photos/store',[PhotoController::class,'store'])->name('photos.store');
+        Route::get('/photos/{photo}/edit',[PhotoController::class,'edit'])->name('photos.edit');
+        Route::post('/photos/{photo}/update',[PhotoController::class,'update'])->name('photos.update');
+        Route::get('/photos/{photo}/destroy',[PhotoController::class,'destroy'])->name('photos.destroy');
+        
+
+    });
+    
 
 });
 
