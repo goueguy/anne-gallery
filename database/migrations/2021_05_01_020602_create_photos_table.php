@@ -18,7 +18,11 @@ class CreatePhotosTable extends Migration
             $table->string("titre");
             $table->text("file");
             $table->unsignedBigInteger('categorie_id');
-            $table->foreign('categorie_id')->references('id')->on('categories');
+            $table->foreign('categorie_id')
+                ->references('id')
+                ->on('categories')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
