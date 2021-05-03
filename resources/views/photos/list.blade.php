@@ -8,6 +8,9 @@
                     Anne Gallery
                 @endauth
             </div>
+            <div class="ml-auto">
+                <a class="bg-green-300 p-2 font-bold border-none rounded-lg" href="{{route('photos.create')}}">ADD</a>
+            </div>
         </div>
     </x-slot>
     <div class="py-5">
@@ -19,6 +22,7 @@
                             {{ session('msg') }}
                         </div>
                     @endif
+
                     <table class="w-full bg-white">
                         <tr>
                             <th class="border text-left py-2 px-2">#ID</th>
@@ -36,7 +40,6 @@
                                     <img src="pictures/{{$photoCategorie->file}}" class="h-40 w-40" />
                                 </td>
                                 <td class="border  py-2 px-10">
-                                    <a class="bg-green-300 p-2 font-bold border-none rounded-lg" href="{{route('photos.create')}}">ADD</a>
                                     <a class="bg-gray-300 p-2 font-bold border-none rounded-lg" href="{{route('photos.edit',$photoCategorie->id)}}">UPDATE</a>
                                     <a class="bg-red-500 p-2 font-bold border-none rounded-lg" href="{{route('photos.destroy',$photoCategorie->id)}}">DELETE</a>
                                 </td>

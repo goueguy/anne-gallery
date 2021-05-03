@@ -21,4 +21,7 @@ class Photo extends Model
     public function downloads(){
         return $this->hasMany(Download::class);
     }
+    public function likes(){
+        return $this->hasMany(Like::class);
+    }
 }

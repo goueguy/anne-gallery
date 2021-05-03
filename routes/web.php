@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\DownloadController;
+use App\Http\Controllers\LikeController;
 use App\Http\Middleware\isAdmin;
 use App\Http\Middleware\isModerator;
 
@@ -23,12 +24,15 @@ use App\Http\Middleware\isModerator;
 Route::get('/', [PhotoController::class,'home']);
 Route::get('/categories',[CategorieController::class,'index'])->name('categories.index');
 
-Route::any('/photos/find',[PhotoController::class,'find'])->name('photos.find');
+Route::post('/photos/find',[PhotoController::class,'find'])->name('photos.find');
+
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     
     Route::get('/dashboard',function(){
         return view('dashboard');
     })->name('dashboard');
+    Route::get('/photos/likes',[LikeController::class,'likes'])->name('photos.likes');
+    Route::post('/photos/{photo}/liker',[LikeController::class,'liker'])->name('photos.liker');
     /*----------------------DOWNLOAD---------------------------*/
     Route::get("/photos/{photo}/download",[DownloadController::class,'download'])->name("photos.download");
     /*---------------------CATEGORIES--------------------------*/    

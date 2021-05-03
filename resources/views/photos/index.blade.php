@@ -8,60 +8,59 @@
                     Anne Gallery
                 @endauth
             </div>
-            <div class="flex flex-row ml-auto">
-                <div class="mr-5">
-                    <a href="{{route('register')}}">S'INSCRIRE</a>
-                </div>
-                <div class="float-left">
-                    <a href="{{route('login')}}">SE CONNECTER</a>
-                </div>
-           </div>
-            
         </div>
        
     </x-slot>
-    <div class="py-5">
+    <div class="mx-60 py-5">
         <div class="max-w-7xl m-auto sm:px-6 lg:px-8 mb-12">
             <form action="{{route('photos.find')}}" method="POST">
                 @csrf
                 <div class="flex flex-row">
                     <div  class="mr-4">
-                        <input type="text" name="title" placeholder="Titre à rechercher"/>
+                        <input type="text" class="@error('title') bg-red-200 @enderror" name="title" placeholder="Titre à rechercher"/>
                     </div>
+
                     <div>
-                        <select name="categorie_id">
+                        <select name="categorie_id" class="@error('categorie_id') bg-red-200 @enderror">
                             <option value="">--------------------CATEGORIE---------------------</option>
                             @foreach($listCategories as $key => $categorie)
                                  <option value="{{$categorie->id}}" >{{$categorie->name}}</option>
                             @endforeach
                         </select>
                     </div>
+
                     <div>
                         <button type="submit" class="bg-green-200 border-0 p-2 ml-5">RECHERCHER</button>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="overflow-hidden  sm:rounded-lg">
-                @if (session('msg'))
-                    <div class="bg-red-400 border w-1/2 p-3 text-center text-white mb-5">
-                        {{ session('msg') }}
-                    </div>
-                    @endif
-                    <div class="flex justify-between">
-                        @foreach ($photoCategories as $key=> $photoCategorie)
-                            <div class="mr-4">
-                                <p class="text-white bg-green-400 mb-4 text-center font-bold">{{$photoCategorie->categorie->name}}</p>
-                                <img src="pictures/{{$photoCategorie->file}}" class="h-1/2 w-screen" />
-                                <button type="submit" class="p-2 mt-5 text-white bg-blue-500">Liker</button>
-                                @auth
-                                    <a href="/photos/{{$photoCategorie->id}}/download" target="_self" class="p-3 mt-5 text-white bg-red-500">Télécharger</a>
-                                @endauth
-                            </div>
-                        @endforeach
-                    </div>
+        
+    </div>
+    <div class="mx-60 py-5">
+            @if (session('msg'))
+                <div class="bg-red-400 border p-3 text-center text-white mb-5">
+                    {{ session('msg') }}
+                </div>
+            @endif
+            <div class="flex flex-row mb-32">
+                <div class="grid grid-cols-3 gap-4">
+                    @foreach ($photoCategories as $key=> $photoCategorie)
+                        <div class="w-full">
+                             <img src="pictures/{{$photoCategorie->file}}" class="w-full h-full" />
+                             <div class="inline-block">
+                                <form action="{{route('photos.liker',$photoCategorie->id)}}" method="POST">
+                               @csrf
+                               <input type="hidden" name="categorie_id" value="{{$photoCategorie->id}}">
+                               <button type="submit" class="p-3 mt-8 mr-5 text-white bg-blue-500">Liker</button>
+                                </form>
+                             </div>
+                             <a href="/photos/{{$photoCategorie->id}}/download" target="_blank" class=" p-3 text-white bg-red-600">Télécharger
+                             </a>
+                        </div>
+                        
+                    @endforeach
+                </div>
             </div>
-        </div>
     </div>
 </x-app-layout>

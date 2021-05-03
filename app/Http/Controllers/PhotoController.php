@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Photo;
+use App\Models\Like;
 use App\Models\Categorie;
 use Illuminate\Http\Request;
 use File;
@@ -67,7 +68,7 @@ class PhotoController extends Controller
              $fileNameStore = "default.png";
          }
          $data = [
-             "titre"=>$request->title,
+             "titre"=>strtolower($request->title),
              "file"=>$fileNameStore,
              "categorie_id"=>$request->categorie_id
          ];
@@ -110,12 +111,13 @@ class PhotoController extends Controller
      */
     public function update(Request $request, Photo $photo)
     {
-        $this->validate($request,[
-            "title"=>"required",
-            "file"=>"required|image|mimes:jpg,png,jpeg,gif",
-            "categorie_id"=>"required"
-        ]);
-        if($request->hasFile("file")){
+        ///dd($request->all());
+       
+        
+        //dd("ok");
+        $image = $request->hasFile("file");
+        if($image){
+            //dd("ok");
             //get file with extension
             $fileNameWithExtension = $request->file("file")->getClientOriginalName();
             //get filename
@@ -130,10 +132,10 @@ class PhotoController extends Controller
             if(file_exists($image_path)){
                 //supprimer le fichier de la photo dans le dossier d'upload(pictures)
                 File::delete($image_path);
-            }else{
-                $request->file("file")->move("pictures", $fileNameStore);
             }
+            $request->file("file")->move("pictures", $fileNameStore);
          }else{
+            //dd("olll");
              $fileNameStore = $request->file_old;
          }
          
@@ -142,8 +144,9 @@ class PhotoController extends Controller
              "file"=>$fileNameStore,
              "categorie_id"=>$request->categorie_id
          ];
+         
         Photo::where("id",$photo->id)->update($data);
-        return redirect()->route('photos.index')->with("msg","modifiée");
+        return redirect()->route('photos.index');
     }
 
     /**
@@ -170,6 +173,7 @@ class PhotoController extends Controller
     public function find(Request $request){
         $this->validate($request,[
             "title"=>"required|string",
+            "categorie_id"=>"required",
         ]);
         
         $listCategories = Categorie::all();
@@ -183,4 +187,5 @@ class PhotoController extends Controller
         //var_dump($photoCategories);
         return view("photos.result",compact("photoCategories","listCategories"));
     }
+
 }

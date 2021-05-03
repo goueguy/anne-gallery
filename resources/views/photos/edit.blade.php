@@ -18,9 +18,8 @@
                   </div>
                   <div>
                     <select name="categorie_id" class="w-1/2">
-                        <option value="">--------------------CATEGORIE---------------------</option>
                         @foreach($categories as $key => $categorie)
-                            <option value="{{$categorie->id}}" >{{$categorie->name}}</option>
+                            <option value="{{$categorie->id}}" {{$categorie->id==$photo->categorie_id ? "selected":""}}>{{$categorie->name}}</option>
                         @endforeach
                     </select>
                   </div>

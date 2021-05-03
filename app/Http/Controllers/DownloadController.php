@@ -25,7 +25,7 @@ class DownloadController extends Controller
             Download::create($data);
         }
         elseif($countDownload[0]['total']>=3){
-            return redirect("photos")->with("msg","VOUS AVEZ DROIT À 3 TÉLÉCHARGEMENTS MAXIMUM");
+            return redirect("/")->with("msg","VOUS AVEZ DROIT À 3 TÉLÉCHARGEMENTS MAXIMUM");
         }
         else{
                 $photoData = Download::where("photo_id",$photo->id)

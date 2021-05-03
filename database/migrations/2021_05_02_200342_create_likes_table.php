@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDownloadsTable extends Migration
+class CreateLikesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,13 @@ class CreateDownloadsTable extends Migration
      */
     public function up()
     {
-        Schema::create('downloads', function (Blueprint $table) {
+        Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            $table->integer("count")->default(0);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('photo_id');
-            $table->foreign('user_id')
-            ->references('id')
-            ->on('users')
-            ->onUpdate('cascade')
+            $table->foreign('user_id')->references('id')->on('users')
             ->onDelete('cascade');
-            $table->foreign('photo_id')
-            ->references('id')
-            ->on('photos')
-            ->onUpdate('cascade')
+            $table->foreign('photo_id')->references('id')->on('photos')
             ->onDelete('cascade');
             $table->timestamps();
         });
@@ -39,6 +32,6 @@ class CreateDownloadsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('downloads');
+        Schema::dropIfExists('likes');
     }
 }

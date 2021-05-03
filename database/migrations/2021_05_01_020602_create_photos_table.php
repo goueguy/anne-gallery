@@ -21,7 +21,6 @@ class CreatePhotosTable extends Migration
             $table->foreign('categorie_id')
                 ->references('id')
                 ->on('categories')
-                ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->timestamps();
         });
