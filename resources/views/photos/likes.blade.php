@@ -18,6 +18,7 @@
                
                     
                     <div class="grid grid-cols-3 gap-4">
+                        @if(count($dataPhoto)>0)
                          @foreach($dataPhoto as $photo)
                             <div>
                                     <h2 class="capitalize font-bold">{{$photo->titre}}</h2>
@@ -28,6 +29,9 @@
 
                             </div>
                         @endforeach
+                        @else
+                            <div>PAS DE PHOTOS ACTUELLEMENT</div>
+                        @endif
                     </div>
                    
                 
